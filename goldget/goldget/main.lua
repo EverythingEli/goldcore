@@ -32,10 +32,10 @@ else
 	--end
 	local pkgget = http.get("https://raw.githubusercontent.com/EverythingEli/goldcore/master/goldget/"..tArgs[1].."/main.lua")
 	if not fs.exists("/pkg") then
-		fs.mkdir("/pkg")
+		fs.makeDir("/pkg")
 	end
 	if not fs.exists("/pkg/"..tArgs[1]) then
-		fs.mkdir("/pkg/"..tArgs[1])
+		fs.makeDir("/pkg/"..tArgs[1])
 	end
 	local f = fs.open("pkg/"..tArgs[1].."/main.lua","w")
 	f.write(pkgget.readAll())
