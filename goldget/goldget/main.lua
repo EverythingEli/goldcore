@@ -18,16 +18,28 @@ if not table.contains(lst,tArgs[1]) then
 else
 	print("Package exists!")
 	pklf.close()
-	local pklfr = fs.open(".pk","r")
-	local pkl = textutils.unserialize(pklfr.readAll())
-	pklfr.close()
+	--local pklfr = fs.open(".pk","r")
+	--local pkl = textutils.unserialize(pklfr.readAll())
+	--pklfr.close()
 	print("Installing "..tArgs[1].."...")
-	if not table.contains(pkl,tArgs[1]) then
-		pkl[#pkl+1] = tArgs[1]
-		local pklfw = fs.open(".pk","w")
-		pklfw.write(textutils.serialize(pkl))
-		print("Installed "..tArgs[1])
-	else
-		print("Package already installed!")
+	--if not table.contains(pkl,tArgs[1]) then
+	--	pkl[#pkl+1] = tArgs[1]
+	--	local pklfw = fs.open(".pk","w")
+	--	pklfw.write(textutils.serialize(pkl))
+	--	print("Installed "..tArgs[1])
+	--else
+	--	print("Package already installed!")
+	--end
+	local pkgget = http.get("https://raw.githubusercontent.com/EverythingEli/goldcore/master/goldget/"..tArgs[1].."/main.lua")
+	if not fs.exists("/pkg") then
+		fs.mkdir("/pkg")
 	end
+	if not fs.exists("/pkg/"..tArgs[1]) then
+		fs.mkdir("/pkg/"..tArgs[1])
+	end
+	local f = fs.open("pkg/"..tArgs[1].."/main.lua","w")
+	f.write(pkgget.readAll())
+	pkgget.close()
+	f.close()
+	print("Package updated/installed!")
 end
