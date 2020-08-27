@@ -37,9 +37,14 @@ else
 	if not fs.exists("/pkg/"..tArgs[1]) then
 		fs.makeDir("/pkg/"..tArgs[1])
 	end
-	local f = fs.open("pkg/"..tArgs[1].."/main.lua","w")
+	local f = fs.open("/pkg/"..tArgs[1].."/main.lua","w")
 	f.write(pkgget.readAll())
 	pkgget.close()
 	f.close()
+	local r = fs.open("/pkg/ref/"..tArgs[1]..".lua","w")
+	local refget = http.get("https://raw.githubusercontent.com/EverythingEli/goldcore/master/goldget/ref/"..tArgs[1]..".lua")
+	r.write(refget.readAll())
+	refget.close()
+	r.close()
 	print("Package updated/installed!")
 end
